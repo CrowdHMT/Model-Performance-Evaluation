@@ -17,12 +17,22 @@ Users input the deep learning model and device resources to evaluate the perform
 
 该功能可统计模型的参数量，并且能根据用户给定输入数据的格式计算模型推理过程中的计算量，为深度学习模型在边端设备上的部署方式提供参考。
 
-**使用方法：**
+**参数说明：**
 | 参数 | 说明 | 具体参数 |
 | --- | --- | --- |
 | 必填参数 | 用户自定义模型或者系统与定义模型 | `Predefined_model` |
 | | | `User_defined_model` |
 | 可选参数 | 网络类型, 评估参数 | `--network` |
 | | | `--performance` |
-| `network` | 网络类型 | `AlexNet MobileNet ResNet VGG` |
-| `performance` | 评估参数 | `Computation Parameter Storage Latency Energy Accuracy` |
+| `network` | 网络类型 | `AlexNet, MobileNet, ResNet, VGG` |
+| `performance` | 评估参数 | `Computation, Parameter, Storage, Latency, Energy, Accuracy` |
+
+**使用方法：**
+1. 进入目录
+`cd src`
+2. 执行评估文件
+python Model_evaluation.py Predefined_model --network AlexNet
+
+
+**注意事项：**
+目前处于开发阶段，评估参数仅提供`Computation, Parameter, Storage`，剩余功能`Latency, Energy, Accuracy`等待上线
