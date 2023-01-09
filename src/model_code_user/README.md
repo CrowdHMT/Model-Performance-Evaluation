@@ -100,7 +100,7 @@ def model_user():
 
 **注意：在模型定义时，需要先使用test()函数通过函数测试，再定义model_user()超参数函数**
 
-## 四、使用方法
+## 五、使用方法
 
 主函数接口为"User_defined_model"和"--Computation True"：
 ``` python
