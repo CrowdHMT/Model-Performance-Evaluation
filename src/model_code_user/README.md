@@ -17,11 +17,11 @@ import torch.nn.functional as F
 
 符合Pytorch的网络结构定义均可作为自定义网络结构上传来进行模型性能评估
 
-例如：AlexNet
+例如：AlexNet定义为Model_user, 其文件名为
 ``` python
-class AlexNet(nn.Module):
+class Model_user(nn.Module):
     def __init__(self):
-        super(AlexNet, self).__init__()
+        super(Model_user, self).__init__()
         self.Conv2d_1 = nn.Conv2d(kernel_size=3, in_channels=3, out_channels=96, padding=1)
         self.bn_1 = nn.BatchNorm2d(96)
         self.maxpool_1 = nn.MaxPool2d((3, 3), stride=2, padding=1)
@@ -71,10 +71,10 @@ class AlexNet(nn.Module):
 
 ## 三、测试函数
 
-首先需要用户验证函数定义是否正确，以AlexNet为例：
+首先需要用户验证函数定义是否正确，以Model_user为例：
 ``` python
 def test():
-    net = AlexNet()
+    net = Model_user()
     x = torch.randn(2, 3, 32, 32)
     y = net(x)
     print(y.size())
@@ -90,7 +90,7 @@ torch.Size([2, 10])
 用于网络性能评估，以AlexNet网络为例，需要定义模型、输入张量以及模型的名称：
 ``` python
 # 注意定义返回函数时，需要定义为"model_User"
-def model_User():
+def model_user():
     # 定义模型和输入
     model = AlexNet()
     input = torch.randn(2, 3, 32, 32)
@@ -98,4 +98,11 @@ def model_User():
     return model, input
 ```
 
-**注意：在模型定义时，需要先使用test()函数通过函数测试，再定义model_User()超参数函数**
+**注意：在模型定义时，需要先使用test()函数通过函数测试，再定义model_user()超参数函数**
+
+## 四、使用方法
+
+主函数接口为"User_defined_model"和"--Computation True"：
+``` python
+python Model_evaluation.py User_defined_model --Computation True
+```
