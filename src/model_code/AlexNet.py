@@ -2,9 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from thop import clever_format
-from thop import profile
-
 class AlexNet(nn.Module):
     def __init__(self):
         super(AlexNet, self).__init__()
@@ -54,17 +51,18 @@ class AlexNet(nn.Module):
         x = self.fc_3(x)
         return x
 
+def test():
+
+    net = AlexNet()
+    x = torch.randn(2, 3, 32, 32)
+    y = net(x)
+    print(y.size())
+
+# test()
+
 def model_AlexNet():
+
     model = AlexNet()
     input = torch.randn(2, 3, 32, 32)
 
-    Macs, Params = profile(model, inputs=(input, ))
-    Macs, Params = clever_format([Macs, Params], "%.2f")
-    
-    # print("AlexNet")
-    # print('Macs', Macs)
-    # print('Params', Params)
-
-    return model, Macs, Params
-
-model_AlexNet()
+    return model, input
