@@ -7,9 +7,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from thop import clever_format
-from thop import profile
-
 class Block(nn.Module):
     '''Depthwise conv + Pointwise conv'''
     def __init__(self, in_planes, out_planes, stride=1):
@@ -53,8 +50,8 @@ class MobileNet(nn.Module):
         out = self.linear(out)
         return out
 
-
 def test():
+
     net = MobileNet()
     x = torch.randn(1,3,32,32)
     y = net(x)
@@ -63,15 +60,10 @@ def test():
 # test()
 
 def model_MobileNet():
+
     model = MobileNet()
     input = torch.randn(2, 3, 32, 32)
 
-    Macs, Params = profile(model, inputs=(input, ))
-    Macs, Params = clever_format([Macs, Params], "%.2f")
-    
-    # print("MobileNet")
-    # print('Macs', Macs)
-    # print('Params', Params)
+    return model, input
 
-    return model, Macs, Params
 # model_MobileNet()
