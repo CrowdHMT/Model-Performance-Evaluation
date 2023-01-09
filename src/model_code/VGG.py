@@ -2,16 +2,12 @@
 import torch
 import torch.nn as nn
 
-from thop import clever_format
-from thop import profile
-
 cfg = {
     'VGG11': [64, 'M', 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M'],
     'VGG13': [64, 64, 'M', 128, 128, 'M', 256, 256, 'M', 512, 512, 'M', 512, 512, 'M'],
     'VGG16': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 'M', 512, 512, 512, 'M', 512, 512, 512, 'M'],
     'VGG19': [64, 64, 'M', 128, 128, 'M', 256, 256, 256, 256, 'M', 512, 512, 512, 512, 'M', 512, 512, 512, 512, 'M'],
 }
-
 
 class VGG(nn.Module):
     def __init__(self, vgg_name):
@@ -39,6 +35,15 @@ class VGG(nn.Module):
         layers += [nn.AvgPool2d(kernel_size=1, stride=1)]
         return nn.Sequential(*layers)
 
+def test():
+    
+    net = VGG("VGG11")
+    x = torch.randn(2, 3, 32, 32)
+    y = net(x)
+    print(y.size())
+
+# test()
+
 def model_VGG(input_network = "VGG11"):
 
     VGG_list = ["VGG11", "VGG13", "VGG16", "VGG19"]
@@ -50,10 +55,4 @@ def model_VGG(input_network = "VGG11"):
 
     input = torch.randn(2, 3, 32, 32)
 
-    Macs, Params = profile(model, inputs=(input, ))
-    Macs, Params = clever_format([Macs, Params], "%.2f")
-    # print("VGG")
-    # print('Macs', Macs)
-    # print('Params', Params)
-
-    return model, Macs, Params
+    return model, input

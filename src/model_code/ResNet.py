@@ -10,10 +10,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from thop import clever_format
-from thop import profile
-
-
 class BasicBlock(nn.Module):
     expansion = 1
 
@@ -128,8 +124,10 @@ def ResNet152():
 
 
 def test():
+
     net = ResNet18()
-    y = net(torch.randn(1, 3, 32, 32))
+    x = torch.randn(1, 3, 32, 32)
+    y = net(x)
     print(y.size())
 
 # test()
@@ -153,12 +151,5 @@ def model_ResNet(input_network="ResNet18"):
 
     input = torch.randn(1, 3, 32, 32)
 
-    Macs, Params = profile(model, inputs=(input, ))
-    Macs, Params = clever_format([Macs, Params], "%.2f")
-
-    # print("ResNet")
-    # print('Macs', Macs)
-    # print('Params', Params)
-
-    return model, Macs, Params
+    return model, input
 # model_ResNet()
