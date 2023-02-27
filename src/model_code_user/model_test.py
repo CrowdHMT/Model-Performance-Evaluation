@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class AlexNet(nn.Module):
+class Moble_user(nn.Module):
     def __init__(self):
-        super(AlexNet, self).__init__()
+        super(Moble_user, self).__init__()
         self.Conv2d_1 = nn.Conv2d(kernel_size=3, in_channels=3, out_channels=96, padding=1)
         self.bn_1 = nn.BatchNorm2d(96)
         self.maxpool_1 = nn.MaxPool2d((3, 3), stride=2, padding=1)
@@ -52,29 +52,15 @@ class AlexNet(nn.Module):
         return x
 
 def test():
-
-    net = AlexNet()
+    net = Moble_user()
     x = torch.randn(2, 3, 32, 32)
     y = net(x)
     print(y.size())
 
 # test()
 
-def model_AlexNet():
-
-    model = AlexNet()
+def model_user():
+    model = Moble_user()
     input = torch.randn(2, 3, 32, 32)
 
     return model, input
-
-def test_runtime():
-    import time
-    model, input = model_AlexNet()
-    starttime = time.time()
-    for i in range(100):
-        out = model(input)
-    endtime = time.time()
-    execution_t = (endtime - starttime) / 100
-    print("execution_t: ", execution_t)
-
-# test_runtime()

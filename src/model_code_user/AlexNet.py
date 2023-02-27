@@ -60,7 +60,7 @@ def test():
 
 # test()
 
-def model_AlexNet():
+def model_user():
 
     model = AlexNet()
     input = torch.randn(2, 3, 32, 32)
@@ -69,7 +69,7 @@ def model_AlexNet():
 
 def test_runtime():
     import time
-    model, input = model_AlexNet()
+    model, input = model_user()
     starttime = time.time()
     for i in range(100):
         out = model(input)
