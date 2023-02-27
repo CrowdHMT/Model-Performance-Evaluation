@@ -59,7 +59,7 @@ def test():
 
 # test()
 
-def model_MobileNet():
+def model_user():
 
     model = MobileNet()
     input = torch.randn(2, 3, 32, 32)
@@ -70,7 +70,7 @@ def model_MobileNet():
 
 def test_runtime():
     import time
-    model, input = model_MobileNet()
+    model, input = model_user()
     starttime = time.time()
     for i in range(100):
         out = model(input)
