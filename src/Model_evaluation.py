@@ -73,7 +73,7 @@ def ResultTransmission(Value_e: EvaluationValue):
     print("*" * 30)
     print("Macs: ", Value_e.Macs)
     print("Params: ", Value_e.Params)
-    print("Storage: ", Value_e.Storage)
+    print("Storage:  %.2f" %float(Value_e.Storage) + "MB")
     print("*" * 30)
 
 def main():

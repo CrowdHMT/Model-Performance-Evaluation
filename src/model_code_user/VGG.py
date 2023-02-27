@@ -44,7 +44,7 @@ def test():
 
 # test()
 
-def model_VGG(input_network = "VGG11"):
+def model_user(input_network = "VGG11"):
 
     VGG_list = ["VGG11", "VGG13", "VGG16", "VGG19"]
 
@@ -59,7 +59,7 @@ def model_VGG(input_network = "VGG11"):
 
 def test_runtime():
     import time
-    model, input = model_VGG()
+    model, input = model_user()
     starttime = time.time()
     for i in range(100):
         out = model(input)

@@ -132,7 +132,7 @@ def test():
 
 # test()
 
-def model_ResNet(input_network="ResNet18"):
+def model_user(input_network="ResNet18"):
 
     # ResNet_list = ["ResNet18", "ResNet34", "ResNet50", "ResNet101", "ResNet152"]
 
@@ -156,7 +156,7 @@ def model_ResNet(input_network="ResNet18"):
 
 def test_runtime():
     import time
-    model, input = model_ResNet()
+    model, input = model_user()
     starttime = time.time()
     for i in range(100):
         out = model(input)
@@ -164,4 +164,4 @@ def test_runtime():
     execution_t = (endtime - starttime) / 100
     print("execution_t: ", execution_t)
 
-test_runtime()
+# test_runtime()

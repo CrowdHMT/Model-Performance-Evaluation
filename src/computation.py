@@ -63,7 +63,7 @@ def model_computation_predefined(input_network="VGG"):
     # 计算保存下来的模型的存储量大小
     Storage = os.path.getsize("./model/" + str(input_network) + ".pth")
     Storage = Storage / 2**20
-    Storage = clever_format(Storage, "%.2f")
+    # Storage = clever_format(Storage, "%.2f")
 
     # # 加载保存的模型
     # model = LoadModel()

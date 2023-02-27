@@ -26,7 +26,7 @@ def model_computation_user_ext():
 
     Storage = os.path.getsize("./model_user/" + "model_user" + ".pth")
     Storage = Storage / 2**20
-    Storage = clever_format(Storage, "%.2f")
+    # Storage = clever_format(Storage, "%.2f")
 
     return Macs, Params, Storage
 

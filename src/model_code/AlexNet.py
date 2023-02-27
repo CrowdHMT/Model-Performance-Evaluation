@@ -66,3 +66,15 @@ def model_AlexNet():
     input = torch.randn(2, 3, 32, 32)
 
     return model, input
+
+def test_runtime():
+    import time
+    model, input = model_AlexNet()
+    starttime = time.time()
+    for i in range(100):
+        out = model(input)
+    endtime = time.time()
+    execution_t = (endtime - starttime) / 100
+    print("execution_t: ", execution_t)
+
+# test_runtime()
