@@ -232,7 +232,11 @@ def profile(
             total_ops += m_ops
             total_params += m_params
         # print(prefix, module._get_name(), (total_ops, total_params))
+        
+        # print("ret_dict: ", ret_dict)
+        
         return total_ops, total_params, ret_dict
+
 
     total_ops, total_params, ret_dict = dfs_count(model)
 
@@ -246,4 +250,4 @@ def profile(
 
     if ret_layer_info:
         return total_ops, total_params, ret_dict
-    return total_ops, total_params
+    return total_ops, total_params, ret_dict
