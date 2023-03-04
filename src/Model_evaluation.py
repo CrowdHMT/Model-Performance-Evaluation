@@ -8,6 +8,7 @@ from operator import truediv
 
 # my function
 from computation import HMT_computation
+from energy import HMT_energy
 from latency import HMT_latency
 
 class EvaluationValue:
@@ -73,7 +74,8 @@ def ResultTransmission(Value_e: EvaluationValue):
     print("*" * 30)
     print("Macs: ", Value_e.Macs)
     print("Params: ", Value_e.Params)
-    print("Storage:  %.2f" %float(Value_e.Storage) + "MB")
+    print("Storage:  %.2f" % float(Value_e.Storage) + "MB")
+    print("Energy: %.2f" % Value_e.Energy, "mJ")
     print("*" * 30)
 
 def main():
@@ -96,11 +98,11 @@ def main():
                 # print("Value_e: ", Value_e.Accuracy)
                 # Value_e.Accuracy = 1
                 Value_e.Macs, Value_e.Params, Value_e.Storage = HMT_computation(cmd=args.cmd, network=input_net)
-            if args.Latency:
+            if args.Latency == "True":
                 # 
                 pass
-            if args.Energy:
-                pass
+            if args.Energy == "True":
+                Value_e.Energy = HMT_energy(cmd=args.cmd, network=input_net)
             if args.Accuracy:
                 pass
         pass

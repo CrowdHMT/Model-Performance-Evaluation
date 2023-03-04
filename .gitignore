@@ -3,3 +3,5 @@
 
 *.pth
 *.pyc
+*.xlsx
+energy_md.md
