@@ -10,13 +10,14 @@ from model_code.AlexNet import model_AlexNet
 from model_code.MobileNet import model_MobileNet
 from model_code.ResNet import model_ResNet
 from model_code.VGG import model_VGG
+from model_code.Resnet_ope import *
 
 import time
 
-def CreateModel(input_network="VGG"):
+def CreateModel(input_network="VGG", compress_ope="null"):
     
     # 模型列表
-    ResNet_list = ["ResNet18", "ResNet34", "ResNet50", "ResNet101", "ResNet152"]
+    ResNet_list = ["ResNet18", "ResNet34", "ResNet50", "ResNet101", "ResNet152", "ResNet_ope"]
     VGG_list = ["VGG11", "VGG13", "VGG16", "VGG19"]
 
     if input_network == "AlexNet":
@@ -30,7 +31,22 @@ def CreateModel(input_network="VGG"):
         #     input_network = "ResNet18"
         default_input_network = "ResNet18"
         Model, input = model_ResNet(default_input_network)
-
+    elif input_network == "ResNet_ope":
+        input = torch.randn(1, 3, 32, 32)
+        if compress_ope == "svd":
+            Model = resnet18svd()
+            print("svd")
+        elif compress_ope == "dpconv":
+            Model = resnet18dpconv()
+        elif compress_ope == "fire":
+            Model = resnet18fire()
+        elif compress_ope == "inception1":
+            Model = resnet18inception1()
+        elif compress_ope == "inception2":
+            Model = resnet18inception2()
+        else:
+            print("error compress_ope")
+            Model = resnet18svd()
     elif input_network == "VGG":
         # if input_network not in VGG_list:
         #     input_network = "VGG11"
@@ -45,11 +61,11 @@ def CreateModel(input_network="VGG"):
 
     return Model, input
 
-def HMT_energy(cmd='Predefined_model', network='VGG'):
+def HMT_energy(cmd='Predefined_model', network='VGG', compress_ope="null"):
         # 获得模型
     if cmd == 'Predefined_model':
         # 系统预存模型 V1.0
-        Energy = model_energy_predefined(network)
+        Energy = model_energy_predefined(network, compress_ope)
     elif cmd == 'User_defined_model':
         # 需要用户上传模型代码 后续补充
         Energy = model_energy_user()
@@ -61,9 +77,9 @@ def HMT_energy(cmd='Predefined_model', network='VGG'):
 def model_energy_user():
     pass
 
-def model_energy_predefined(network):
+def model_energy_predefined(network, compress_ope="null"):
     
-    Model, input = CreateModel(network)
+    Model, input = CreateModel(network, compress_ope)
 
     # print("Model: ", Model)
     # print("input: ", )
@@ -95,6 +111,10 @@ def model_energy_predefined(network):
         layer_name_para = name.split(".")[1]
         if layer_name in net_list:
             net_list[layer_name][layer_name_para] = param.shape
+
+
+
+    # print("net_list: ", net_list)
 
     # input = torch.randn(2, 3, 32, 32)
     # 获得输入
@@ -193,7 +213,7 @@ def model_energy_predefined(network):
 
     # 计算：内存访问量 = ( 输入张量大小 + 输出张量大小 + 权重大小 ) × 数据类型字节数 × 每次样本输入数量
     mem_access = (input_size_totle + output_size_totle + weight_size_totle) * byte_size_float32 * num_sample
-    print("Totle Memory Access: ", mem_access)
+    # print("Totle Memory Access: ", mem_access)
     # Cl已经获得，获得Ml
     Ml = mem_access
 
@@ -209,18 +229,20 @@ def model_energy_predefined(network):
     if cache_rate_get < 1:
         cache_rate = cache_rate_get
     else:
-        print("cache_rate_get: ", cache_rate_get)
+        # print("cache_rate_get: ", cache_rate_get)
+        pass
 
     # 总能耗
     
-    print("Cl: ", Cl)
-    print("Ml: ", Ml)
-    print()
-    # energy_total = energy_mutpily_cpu * Cl + cache_rate * energy_access_cache * Ml + (1-cache_rate) * energy_access + is_GPU * Ml * energy_access_gpu
-    energy_total = energy_mutpily_cpu * Cl + cache_rate * energy_access_cache * Ml + (1-cache_rate) * energy_access
+    # print("Cl: ", Cl)
+    # print("Ml: ", Ml)
+    energy_total = energy_mutpily_cpu * Cl + cache_rate * energy_access_cache * Ml + (1-cache_rate) * energy_access + is_GPU * Ml * energy_access_gpu
+    # energy_total = energy_mutpily_cpu * Cl + cache_rate * energy_access_cache * Ml + (1-cache_rate) * energy_access
     # energy_total = round(energy_total * 10 ** (-12) , 2)
     energy_total = energy_total * 10 ** (-12 + 3)
     
+    # print("energy_total: ", energy_total)
+
     return energy_total
 
 def getcacherate(model, input, device):

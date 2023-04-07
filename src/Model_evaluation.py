@@ -3,8 +3,6 @@
 # @Time: 2022/12/19
 
 import argparse
-from msilib.schema import Class
-from operator import truediv
 
 # my function
 from computation import HMT_computation
@@ -40,12 +38,16 @@ def parse_args():
     # 系统与定义模型的参数
 
     parser.add_argument('--network', type=str, default='VGG',
-                        choices=['AlexNet', 'MobileNet', 'ResNet', 'VGG'],
+                        choices=['AlexNet', 'MobileNet', 'ResNet', 'VGG', 'ResNet_ope'],
                         help='Select the model to evaluate')
 
     # parser.add_argument('--performance', type=str, default='Computation',
     #                     choices=['Computation', 'Parameter', 'Storage', 'Latency', 'Energy', 'Accuracy'],
     #                     help='Select the model performance to evaluate')
+
+    parser.add_argument('--operator', type=str, default='svd', 
+                        choices=['svd', 'dpconv', 'fire', 'inception1', 'inception2'],
+                        help='Select the compression operator')
 
     # 自定义模型的参数: 网络名称, 文件名称
 
@@ -97,12 +99,12 @@ def main():
                 # 模型计算量、参数量、存储量
                 # print("Value_e: ", Value_e.Accuracy)
                 # Value_e.Accuracy = 1
-                Value_e.Macs, Value_e.Params, Value_e.Storage = HMT_computation(cmd=args.cmd, network=input_net)
+                Value_e.Macs, Value_e.Params, Value_e.Storage = HMT_computation(cmd=args.cmd, network=input_net, compress_ope=args.operator)
             if args.Latency == "True":
                 # 
                 pass
             if args.Energy == "True":
-                Value_e.Energy = HMT_energy(cmd=args.cmd, network=input_net)
+                Value_e.Energy = HMT_energy(cmd=args.cmd, network=input_net, compress_ope=args.operator)
             if args.Accuracy:
                 pass
         pass

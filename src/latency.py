@@ -101,7 +101,7 @@ def test():
 
     print(HMT_latency(model=Model, inputs=input))
 
-test()
+# test()
 
 # if __name__ == "__main__":
 

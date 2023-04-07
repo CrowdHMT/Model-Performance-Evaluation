@@ -65,6 +65,6 @@ def test_runtime():
         out = model(input)
     endtime = time.time()
     execution_t = (endtime - starttime) / 100
-    print("execution_t: ", execution_t)
+    # print("execution_t: ", execution_t)
 
 # test_runtime()
